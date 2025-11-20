@@ -1,42 +1,400 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* Dashboard - Modern Responsive Design with Animations */
+
+:root {
+  --primary-color: #d32f2f;
+  --secondary-color: #1976d2;
+  --dark: #0a0e27;
+  --darker: #050810;
+  --text: #ffffff;
+  --subtitle: #b0bec5;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --danger: #f44336;
+  --border: #1a237e;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+* {
+  box-sizing: border-box;
 }
 
-@keyframes logo-spin {
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ant Design Component Overrides */
+.ant-card {
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ant-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+}
+
+.ant-card-head {
+  border-bottom: 2px solid #f0f0f0;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #fafafa 0%, #fff 100%);
+}
+
+.ant-card-body {
+  padding: 24px;
+}
+
+.ant-table {
+  font-size: 13px;
+}
+
+.ant-table-thead > tr > th {
+  background-color: #fafafa;
+  font-weight: 700;
+  border-bottom: 2px solid #e8e8e8;
+  transition: all 0.3s ease;
+}
+
+.ant-table-tbody > tr {
+  transition: background-color 0.2s;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background-color: #fafafa;
+}
+
+.ant-tag {
+  border-radius: 6px;
+  font-weight: 700;
+  padding: 4px 10px;
+  font-size: 11px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.ant-statistic-title {
+  color: #999;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ant-statistic-content {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.ant-select-selector {
+  border-radius: 8px !important;
+  border: 2px solid #d9d9d9 !important;
+  transition: all 0.3s ease !important;
+}
+
+.ant-select-selector:hover {
+  border-color: #d32f2f !important;
+}
+
+.ant-select-focused .ant-select-selector {
+  border-color: #d32f2f !important;
+  box-shadow: 0 0 0 2px rgba(211, 47, 47, 0.1) !important;
+}
+
+.ant-drawer-header {
+  border-bottom: 1px solid #f0f0f0;
+  padding: 16px 24px;
+}
+
+.ant-drawer-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* Map Container */
+.leaflet-container {
+  border-radius: 10px;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  width: auto !important;
+  font-size: 13px;
+}
+
+.leaflet-popup-content h3 {
+  margin: 0 0 8px 0;
+  color: #d32f2f;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.leaflet-popup-content p {
+  margin: 4px 0;
+  font-size: 12px;
+}
+
+/* Recharts Customization */
+.recharts-wrapper {
+  outline: none;
+}
+
+.recharts-surface {
+  overflow: visible !important;
+}
+
+/* Animations */
+@keyframes slideInUp {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
+    transform: translateY(30px);
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
-.card {
-  padding: 2em;
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.read-the-docs {
-  color: #888;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.ant-card {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Loading and Empty States */
+.ant-empty-description {
+  color: #999;
+  font-size: 13px;
+}
+
+.ant-spin {
+  color: #d32f2f;
+}
+
+.ant-spin-spinning {
+  animation: spin 1s linear infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .ant-card {
+    border-radius: 10px;
+  }
+
+  .ant-statistic-content {
+    font-size: 26px;
+  }
+
+  body {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 992px) {
+  /* Tablet adjustments */
+  .ant-col {
+    margin-bottom: 12px;
+  }
+
+  .ant-card {
+    padding: 16px;
+  }
+
+  .ant-table {
+    font-size: 12px;
+  }
+
+  .ant-statistic-content {
+    font-size: 24px;
+  }
+
+  .ant-drawer {
+    width: 100% !important;
+    max-width: 400px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Mobile adjustments */
+  body {
+    font-size: 13px;
+  }
+
+  h1 {
+    font-size: 24px !important;
+  }
+
+  h2 {
+    font-size: 18px !important;
+  }
+
+  p {
+    font-size: 13px !important;
+  }
+
+  .ant-card {
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+
+  .ant-card-head {
+    padding: 12px 16px;
+  }
+
+  .ant-card-body {
+    padding: 16px;
+  }
+
+  .ant-table {
+    font-size: 11px;
+  }
+
+  .ant-table thead > tr > th,
+  .ant-table tbody > tr > td {
+    padding: 6px 8px;
+  }
+
+  .ant-statistic-content {
+    font-size: 20px;
+  }
+
+  .ant-statistic-title {
+    font-size: 10px;
+  }
+
+  .leaflet-container {
+    height: 300px !important;
+  }
+
+  .ant-drawer {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Grid to single column on very small screens */
+  div[style*='gridTemplateColumns'] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 20px !important;
+  }
+
+  h2 {
+    font-size: 16px !important;
+  }
+
+  .ant-card-head {
+    padding: 10px 12px;
+  }
+
+  .ant-card-body {
+    padding: 12px;
+  }
+
+  .ant-statistic-content {
+    font-size: 18px;
+  }
+
+  .ant-button,
+  .ant-select {
+    font-size: 13px !important;
+  }
+
+  .ant-table-small > .ant-table-content .ant-table-body > tr > td {
+    padding: 4px 6px;
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d32f2f;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b71c1c;
+}
+
+/* Print Styles */
+@media print {
+  body {
+    background: white;
+  }
+
+  .ant-card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+}
+
+/* Smooth Transitions */
+* {
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
