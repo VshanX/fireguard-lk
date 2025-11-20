@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, TextInput, Button, Alert, FlatList, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TextInput, Button, Alert, FlatList, TouchableOpacity, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { supabase } from './supabaseClient';
 
@@ -56,17 +56,19 @@ export default function App() {
 
   const takeIncident = async (id) => {
     await supabase.from('incidents').update({ status: 'en_route' }).eq('id', id);
+    fetchIncidents(); // refresh instantly
   };
 
   // ================== LOGIN SCREEN ==================
   if (!session) {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>🚒 FireGuard LK</Text>
+        <Text style={styles.title}>FireGuard LK</Text>
         <TextInput placeholder="Full Name (optional)" value={fullName} onChangeText={setFullName} style={styles.input} />
         <TextInput placeholder="Email" value={email} onChangeText={setEmail} style={styles.input} autoCapitalize="none" />
         <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry style={styles.input} />
         <Button title={loading ? "Creating..." : "Create Firefighter Account"} onPress={signUp} disabled={loading} />
+        <View style={{ height: 10 }} />
         <Button title={loading ? "Logging in..." : "Login"} onPress={signIn} color="#d32f2f" disabled={loading} />
       </View>
     );
@@ -75,31 +77,47 @@ export default function App() {
   // ================== FIREFIGHTER DASHBOARD ==================
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10, backgroundColor: '#111' }}>
+      {/* Header */}
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 15, backgroundColor: '#111' }}>
         <Text style={{ color: 'white', fontWeight: 'bold' }}>Welcome, {session.user.email}</Text>
         <Button title="Logout" onPress={signOut} color="red" />
       </View>
 
+      {/* Map */}
       <MapView style={{ flex: 1 }}>
         {incidents.map(inc => (
-          <Marker key={inc.id} coordinate={{ latitude: inc.latitude, longitude: inc.longitude }} pinColor="red" />
+          <Marker
+            key={inc.id}
+            coordinate={{ latitude: inc.latitude, longitude: inc.longitude }}
+            pinColor={inc.severity === 'critical' ? 'red' : 'orange'}
+          />
         ))}
       </MapView>
 
-      <View style={{ height: 300, backgroundColor: '#111', padding: 10 }}>
-        <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Active Incidents</Text>
+      {/* Incident List */}
+      <View style={{ height: 350, backgroundColor: '#111', padding: 10 }}>
+        <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>
+          Active Incidents ({incidents.length})
+        </Text>
         <FlatList
           data={incidents}
+          keyExtractor={item => item.id}
           renderItem={({ item }) => (
-            <View style={{ backgroundColor: '#222', padding: 10, margin: 5, borderRadius: 8 }}>
+            <View style={{ backgroundColor: '#222', padding: 12, marginVertical: 6, borderRadius: 10 }}>
               <Text style={{ color: 'white', fontWeight: 'bold' }}>{item.title}</Text>
-              <Text style={{ color: '#aaa' }}>Severity: {item.severity} | Status: {item.status}</Text>
+              
+              {/* Photo */}
+              {item.photo_url && (
+                <Image source={{ uri: item.photo_url }} style={{ width: '100%', height: 180, borderRadius: 8, marginVertical: 8 }} />
+              )}
+              
+              <Text style={{ color: '#aaa' }}>Severity: {item.severity.toUpperCase()} | Status: {item.status}</Text>
+              
               {item.status === 'reported' && (
-                <Button title="🚒 I'm En Route!" onPress={() => takeIncident(item.id)} color="#d32f2f" />
+                <Button title="I'm En Route!" onPress={() => takeIncident(item.id)} color="#d32f2f" />
               )}
             </View>
           )}
-          keyExtractor={item => item.id}
         />
       </View>
     </View>
@@ -108,6 +126,6 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000' },
-  title: { fontSize: 28, fontWeight: 'bold', color: '#ff4444', textAlign: 'center', margin: 30 },
+  title: { fontSize: 28, fontWeight: 'bold', color: '#ff4444', textAlign: 'center', marginTop: 60 },
   input: { backgroundColor: 'white', padding: 15, margin: 10, borderRadius: 8 }
 });
